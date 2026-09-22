@@ -1,0 +1,25 @@
+Subject: [PATCH] Declare a static version in setup.cfg
+
+backports.functools_lru_cache 1.6.6 declares its version only via
+[tool.setuptools_scm] in pyproject.toml.  The AS windows-2025-msvc-builder
+does not reliably run setuptools_scm's finalize_distribution_options hook
+(infer_version), and that hook swallows its own exceptions, so the version
+silently becomes None -> distutils get_version() returns "0.0.0" -> the wheel
+is named backports.functools_lru_cache-0.0.0-*.whl and ActiveStateWheel
+rejects it with "Distribution name and/or version could not be determined".
+Neither shipping a PKG-INFO-bearing sdist nor SETUPTOOLS_SCM_PRETEND_VERSION
+helps: both are read behind that same dead hook.
+
+A static version in [metadata] is read by plain setuptools with no scm, no
+toml and no builder cooperation.  Same fix as ActiveState/filelock PR #2.
+Text-only patch (no rename headers) so every builder's applier handles it.
+
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -1,5 +1,6 @@
+ [metadata]
+ name = backports.functools_lru_cache
++version = 1.6.6
+ author = Raymond Hettinger
+ author_email = raymond.hettinger@gmail.com
+ maintainer = Jason R. Coombs
