@@ -1,0 +1,25 @@
+From 4a015cf25a3481446c0a46ee3876b3b9139a4b87 Mon Sep 17 00:00:00 2001
+From: icanhasmath <marcg@activestate.com>
+Date: Wed, 18 Jun 2025 17:12:02 -0500
+Subject: [PATCH] Add setup.py
+
+---
+ setup.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 setup.py
+
+diff --git a/setup.py b/setup.py
+new file mode 100644
+index 0000000..bac24a4
+--- /dev/null
++++ b/setup.py
+@@ -0,0 +1,6 @@
++#!/usr/bin/env python
++
++import setuptools
++
++if __name__ == "__main__":
++    setuptools.setup()
+-- 
+2.34.1
+
